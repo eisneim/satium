@@ -149,10 +149,10 @@
     "wrap-regex": 0,
 
     // eslint react plugin
-    "react/jsx-uses-react": 2,
-    "react/jsx-uses-vars": 2,
-    "react/react-in-jsx-scope": 2,
-    "react/prop-types": [0, { "ignore": ["props", "className", "children"] }]
+    // "react/jsx-uses-react": 2,
+    // "react/jsx-uses-vars": 2,
+    // "react/react-in-jsx-scope": 2,
+    // "react/prop-types": [0, { "ignore": ["props", "className", "children"] }]
   },
   "env": {
     "browser": true,
@@ -165,7 +165,11 @@
     "modules":true,
     "experimentalObjectRestSpread": true
   },
+  "globals": {
+    "sinon": true,
+    "expect": true
+  },
   "plugins": [
-    "react"
+    // "react"
   ]
 }
