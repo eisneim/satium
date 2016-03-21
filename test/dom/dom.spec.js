@@ -3,16 +3,11 @@ import * as domUtil from '../../src/dom'
 
 describe('domUtils', () => {
   var $container 
-  beforeEach(()=> {
-    $container = document.createElement('div')
-    document.body.appendChild($container)
-  })
-
-  afterEach(()=> {
-    document.body.removeChild($container)
-  })
 
   it('appendChildren', ()=> {
+    $container = document.createElement('div')
+    document.body.appendChild($container)
+
     var node1 = document.createElement('span')
     var node2 = document.createElement('div')
     var node3 = document.createElement('h1')
@@ -20,6 +15,8 @@ describe('domUtils', () => {
     
     domUtil.appendChildren($container, children)
     expect($container.childNodes).to.have.length(3)
+
+    document.body.removeChild($container)
   })
 
   describe('getAccessor', ()=> {
@@ -64,29 +61,42 @@ describe('domUtils', () => {
     var node = document.createElement('div')
     it('handleEventListeners', ()=> {
       var count = 0
-      domUtil.setComplexAccessor(node,'onClick', e => {count+=1})
+      domUtil.setAccessor(node,'onClick', e => {count+=1})
       node.click()
       expect(node._listeners).to.have.property('click')
       expect(count).to.equal(1)
     })
 
+    it('remove listener if no value provides', () => {
+      domUtil.setAccessor(node,'onClick', undefined)
+      expect(node._listeners.click).to.be.undefined
+
+      domUtil.setComplexAccessor(node,'fun', a=>a+1)
+      expect(node.fun).to.be.undefined
+      expect(node.getAttribute('fun')).to.be.null
+    })
+  })
+
+
+  describe('getNodeAttributes', ()=> {
+    var node = document.createElement('div')
+    
+    domUtil.setAccessor(node, 'class', 'goodClass')
+    domUtil.setAccessor(node, 'style', 'height:25px;width:3px')
+
+    const clickfn = e => {count+=1}
+    domUtil.setAccessor(node,'onClick', clickfn)
+
+    it('get an object that records all set operation value', () => {
+      const attrs = domUtil.getNodeAttributes(node)
+      // console.log(attrs)
+      expect(attrs).to.have.property('class')
+      expect(attrs.class).to.equal('goodClass')
+      expect(attrs['onClick']).to.equal(clickfn)
+
+    })
 
   })
 
-  // it('eventProxy', ()=> {
-
-  // })
-
-  // it('getNodeAttributes', ()=> {
-
-  // })
-
-  // it('getRawNodeAttributes', ()=> {
-
-  // })
-
-  // it('getAttributesAsObject', ()=> {
-
-  // })
 
 })

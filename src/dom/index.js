@@ -85,6 +85,7 @@ export function setAccessor(node, name, value) {
   }
   // TOCHECK
   ensureNodeData(node)[name] = value
+  // console.log('ensureNodeData:', name, typeof value)
 }
 
 /**
