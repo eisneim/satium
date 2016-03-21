@@ -1,5 +1,6 @@
 import VNode from './vnode'
 import { falsey } from './util'
+import {optionsHook} from './hooks'
 
 // just an optimization, not to create new array for vdom
 const SHARED_TEMP_ARRAY = []
@@ -50,9 +51,10 @@ export default function h(nodeName, attributes) {
     // delete attributes.children
     attributes.children = undefined
   }
-  let p = new VNode(nodeName, attributes || undefined, children || undefined)
-
-  return p
+  let node = new VNode(nodeName, attributes || undefined, children || undefined)
+  // convert attr.style, attr.className from object to string
+  optionsHook('vnode', node)
+  return node
 }
 
 /* a vnode should be like:

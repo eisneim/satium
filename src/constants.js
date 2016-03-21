@@ -4,3 +4,8 @@ export const NON_DIMENSION_PROPS = {
   flexPositive: 1, flexShrink: 1, flexNegative: 1, fontWeight: 1, lineClamp: 1, lineHeight: 1,
   opacity: 1, order: 1, orphans: 1, strokeOpacity: 1, widows: 1, zIndex: 1, zoom: 1,
 }
+
+export const EMPTY = {}
+
+export const ATTR_KEY = typeof Symbol !== 'undefined' ? Symbol('Satiumattr') : '__satiumattr__'
+
