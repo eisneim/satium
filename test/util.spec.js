@@ -80,7 +80,19 @@ describe('util.js', ()=> {
     })
   })
 
+  describe('function utils', ()=> {
+    it('compose ', ()=> {
+      var orderArray = []
+      const m1 = (v) => {orderArray.push('m1'); return v+1}
+      const m2 = (v) => {orderArray.push('m2'); return v+1}
+      const m3 = (v) => {orderArray.push('m3'); return v+2}
 
+      var composed = util.compose(m1,m2,m3)
+      expect(composed(1)).to.equal(5)
+      expect(orderArray).to.deep.equal(['m3','m2','m1'])
+    })
+
+  })
 })
 
 

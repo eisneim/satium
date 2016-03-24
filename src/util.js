@@ -87,6 +87,28 @@ export function isFunction(obj) {
  */
 export const isString = obj => 'string' === typeof obj
 
+
+var fnToString = (fn) => Function.prototype.toString.call(fn)
+var objStringValue = fnToString(Object)
+/**
+ * isPlainObject 
+ * @param  {Object}  obj ..
+ * @return {Boolean}     ..
+ */
+export function isPlainObject(obj) {
+  if(!obj || typeof obj !== 'object') return false
+
+  var proto = typeof obj.constructor === 'function' ?
+    Object.getPrototypeOf(obj) : Object.prototype
+
+  if(proto === null) return true
+
+  var constructor = proto.constructor
+  return typeof constructor === 'function' &&
+    constructor instanceof constructor &&
+    fnToString(constructor) === objStringValue
+}
+
 /* eslint-disable eqeqeq */
 export const empty = x => x == null
 /**
@@ -169,5 +191,42 @@ export const setImmediate = ch ? f => {
   ch.port1.onmessage = f
   ch.port2.postMessage('')
 } : setTimeout
+
+/**
+ * composes single-argument functions from righ to left
+ * @param  {...Function} funcs functions to compose
+ * @return {Function}    compose(a,b,c) is: arg=> a(b(c(arg)))
+ */
+export function compose(...funcs) {
+  return arg => funcs.reduceRight((composed, f) => f(composed), arg)
+}
+
+/**
+ * Applies a function to every key-value pair inside an object.
+ * @param  {Object}   obj ..
+ * @param  {Function} fn  ..
+ * @return {Object}       new object with key: result pair
+ */
+export function mapValues(obj, fn) {
+  return Object.keys(obj).reduce((result,key) => {
+    result[key] = fn(obj[key], key)
+    return result
+  }, {})
+}
+
+/**
+ * picks key-value pairs from an object where values satisfy a predicate function
+ * @param  {Object}   obj ..
+ * @param  {Function} fn  ..
+ * @return {Object}       ..
+ */
+export function pick(obj, fn) {
+  return Object.keys(obj).reduce((result, key) => {
+    if(fn(obj[key])) {
+      result[key] = obj[key]
+    }
+    return result
+  },{})
+}
 
 
