@@ -1,7 +1,7 @@
 import {clone, toLowerCase, isFunction, isString, hasOwnProperty} from '../util'
 import {isFunctionalComponent} from './functional-component.js'
 import {getNodeType} from '../dom/index'
-
+const debug = require('debug')('sa:diff')
 /**
  * Check if two node's Type are equivalent.
  * @param  {Object}  node  ..
